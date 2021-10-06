@@ -6,7 +6,7 @@ const SignUp = async (req, res) => {
   //   console.log(checkUser);
   if (checkUser) {
     res
-      .status(400)
+      .status(403)
       .send({ result: checkUser, message: "User already Registered." });
   } else {
     let hash_pass = await bcrypt.hash(req.body.password, 12);
@@ -14,12 +14,19 @@ const SignUp = async (req, res) => {
     let create_user = new authModel({
       email: req.body.email,
       password: hash_pass,
+      fname: req.body.fname,
+      age: req.body.age,
+      address: req.body.address,
+      city: req.body.city,
+      gender: req.body.gender,
+      bloodGroup: req.body.bloodGroup,
+      wanted: req.body.wanted,
     });
     create_user
       .save()
       .then((response) => {
         res
-          .status(200)
+          .status(201)
           .send({ result: response, message: "User Registed Successfully." });
       })
       .catch((err) => {
@@ -34,7 +41,7 @@ const SignIn = async (req, res) => {
   var checkUser = await authModel.findOne({ email: req.body.email });
   // console.log(req.body ,checkUser);
   if (!checkUser) {
-    res.status(400).send({ result: checkUser, message: "User not Found." });
+    res.status(404).send({ result: checkUser, message: "User not Found." });
   } else {
     let check_pass = await bcrypt.compare(
       req.body.password,
@@ -43,7 +50,7 @@ const SignIn = async (req, res) => {
     if (check_pass) {
       res.status(200).send({ message: "Login Successful." });
     } else {
-      res.status(400).send({ message: "your credential is wrong." });
+      res.status(401).send({ message: "your credentials are wrong." });
     }
   }
 };
