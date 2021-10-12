@@ -9,6 +9,7 @@ const SignUp = async (req, res) => {
       .status(403)
       .send({ result: checkUser, message: "User already Registered." });
   } else {
+
     let hash_pass = await bcrypt.hash(req.body.password, 12);
 
     let create_user = new authModel({
