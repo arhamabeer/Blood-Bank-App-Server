@@ -52,7 +52,7 @@ const SignIn = async (req, res) => {
 
 
     if (check_pass) {
-      var token = jwt.sign({ user: checkUser._id }, 'k7jnf8VKRLKFmyG48m533ZRKTKrcGYg5ieYIdWEff3awfFiO');
+      var token = jwt.sign({ user: checkUser._id }, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
       res.status(200).send({ message: "Login Successful.", token });
     } else {
