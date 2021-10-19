@@ -7,7 +7,7 @@ const isAuth = (req, res, next) => {
     // console.log('token=>',token)
     const decoded = jwt.verify(
       token,
-      "k7jnf8VKRLKFmyG48m533ZRKTKrcGYg5ieYIdWEff3awfFiO"
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     );
     req.user = decoded.user;
     // res.status(200).send({ message: "ok credentials"});
