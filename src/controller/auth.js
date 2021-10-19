@@ -1,5 +1,6 @@
 const authModel = require("../models/authSchema");
 const bcrypt = require("bcrypt");
+var jwt = require('jsonwebtoken');
 
 const SignUp = async (req, res) => {
   let checkUser = await authModel.findOne({ email: req.body.email });
@@ -48,8 +49,12 @@ const SignIn = async (req, res) => {
       req.body.password,
       checkUser.password
     );
+
+
     if (check_pass) {
-      res.status(200).send({ message: "Login Successful." });
+      var token = jwt.sign({ user: checkUser._id }, 'k7jnf8VKRLKFmyG48m533ZRKTKrcGYg5ieYIdWEff3awfFiO');
+
+      res.status(200).send({ message: "Login Successful.", token });
     } else {
       res.status(401).send({ message: "your credentials are wrong." });
     }
