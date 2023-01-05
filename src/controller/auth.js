@@ -1,6 +1,6 @@
 const authModel = require("../models/authSchema");
 const bcrypt = require("bcrypt");
-var jwt = require('jsonwebtoken');
+var jwt = require("jsonwebtoken");
 
 const SignUp = async (req, res) => {
   let checkUser = await authModel.findOne({ email: req.body.email });
@@ -10,7 +10,6 @@ const SignUp = async (req, res) => {
       .status(403)
       .send({ result: checkUser, message: "User already Registered." });
   } else {
-
     let hash_pass = await bcrypt.hash(req.body.password, 12);
 
     let create_user = new authModel({
@@ -23,6 +22,7 @@ const SignUp = async (req, res) => {
       gender: req.body.gender,
       bloodGroup: req.body.bloodGroup,
       wanted: req.body.wanted,
+      contact: req.body.contact,
     });
     create_user
       .save()
@@ -41,7 +41,6 @@ const SignUp = async (req, res) => {
 
 const SignIn = async (req, res) => {
   var checkUser = await authModel.findOne({ email: req.body.email });
-  // console.log(req.body ,checkUser);
   if (!checkUser) {
     res.status(404).send({ result: checkUser, message: "User not Found." });
   } else {
@@ -50,9 +49,11 @@ const SignIn = async (req, res) => {
       checkUser.password
     );
 
-
     if (check_pass) {
-      var token = jwt.sign({ user: checkUser._id }, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+      var token = jwt.sign(
+        { user: checkUser._id },
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      );
 
       res.status(200).send({ message: "Login Successful.", token });
     } else {
